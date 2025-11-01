@@ -1,0 +1,38 @@
+{
+  "name": "zilogz80",
+  "title": "Zilog Z80/eZ80",
+  "description": "The Z80 is an 8-bit microprocessor designed by Zilog and the eZ80 is its modernized version with 24-bit addressing and higher speeds.",
+  "homepage": "https://www.zilog.com/",
+  "license": "Apache-2.0",
+  "keywords": [
+    "dev-platform",
+    "Z80",
+    "eZ80",
+    "Zilog",
+    "8-bit"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxgerhardt/platform-zilogz80"
+  },
+  "version": "0.1.0",
+  "frameworks": {
+    "baremetal": {
+      "script": "builder/frameworks/_bare.py",
+      "description": "Baremetal environment for Z80/eZ80 microcontrollers",
+      "title": "Baremetal"
+    }
+  },
+  "packages": {
+    "toolchain-clangz80": {
+      "type": "toolchain",
+      "optional": false,
+      "version": "symlink://c:/Users/Max/Desktop/release"
+    },
+    "tool-zdiprobe": {
+      "type": "uploader",
+      "optional": true,
+      "version": "https://github.com/maxgerhardt/tool-zdiprobe.git"
+    }
+  }
+}

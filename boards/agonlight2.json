@@ -1,0 +1,21 @@
+{
+  "build": {
+    "core": "ez80",
+    "f_cpu": "18432000L",
+    "mcu": "EZ80F92AZ020EG",
+    "variant": "agonlight2"
+  },
+
+  "frameworks": [],
+  "name": "Agon Light 2",
+  "upload": {
+    "maximum_ram_size": 458752,
+    "maximum_size": 131072,
+    "protocol": "zdi",
+    "protocols": [
+      "zdi"
+    ]
+  },
+  "url": "https://github.com/OLIMEX/AgonLight2",
+  "vendor": "OLIMEX"
+}
