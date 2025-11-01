@@ -27,7 +27,7 @@
     "toolchain-clangz80": {
       "type": "toolchain",
       "optional": false,
-      "version": "symlink://c:/Users/Max/Desktop/release"
+      "version": "https://github.com/maxgerhardt/toolchain-clangz80.git"
     },
     "tool-zdiprobe": {
       "type": "uploader",
