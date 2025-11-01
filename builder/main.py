@@ -44,7 +44,7 @@ board = env.BoardConfig()
 # This will be used to set CC/CXX so every compile invocation goes
 # through the wrapper and gets cleaned up for Windows clang quirks.
 _wrapper = join(platform.get_dir() or "", "builder", "clang_wrapper.py").replace('\\', '/')
-_real_clang = join(platform.get_package_dir("toolchain-clangz80") or "", "bin", "ez80-none-elf-clang.exe").replace('\\', '/')
+_real_clang = join(platform.get_package_dir("toolchain-clangz80") or "", "bin", "ez80-none-elf-clang").replace('\\', '/')
 _wrapper_cmd = '"$PYTHONEXE" "%s" "%s"' % (_wrapper, _real_clang)
 
 env.Replace(
@@ -77,7 +77,7 @@ def is_pio_build():
 # instead of our python wrapper. We need to rebuild clang.exe natively on MINGW64 instead of MSYS2 to 
 # eliviate the need for the wrapper altogether.
 if not is_pio_build():
-    env.Replace(CC="ez80-none-elf-clang.exe", CXX="ez80-none-elf-clang.exe")
+    env.Replace(CC="ez80-none-elf-clang", CXX="ez80-none-elf-clang")
 
 env.Append(
     BUILDERS=dict(
