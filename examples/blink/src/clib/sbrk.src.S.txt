@@ -1,0 +1,44 @@
+.assume adl=1
+
+    .section .text
+    .global _sbrk
+_sbrk:
+    pop     de              ; return address
+    ex      (sp), hl       ; get size parameter in HL
+    push    de             ; restore return address
+
+    ld      de, (__sbrkbase)   ; get current heap ptr
+
+    ; Save current heap ptr as return value
+    push    de             ; save old heap ptr
+    
+    add     hl, de         ; calculate new heap ptr (size + current)
+    jp      c, .fail2      ; if wrapped around, fail
+
+    ; 24-bit compare: is new ptr (HL) >= heap top?
+    push    hl             ; save calculated new heap ptr
+    ld      de, ___heaptop ; load heap top address
+    or      a             ; clear carry
+    sbc     hl, de        ; hl = new_ptr - heaptop
+    pop     hl            ; restore new heap ptr to HL
+    jp      nc, .fail2    ; if new_ptr >= heaptop, fail
+
+    ; allocation succeeded - store new heap pointer
+    ld      (__sbrkbase), hl   ; store new heap ptr
+    pop     hl            ; get back old heap ptr to return
+    ret
+
+.fail2:
+    pop     hl            ; clean up saved old ptr
+.fail:
+    or      a, a          ; clear carry
+    sbc     hl, hl        ; hl = 0 (return NULL)
+    ret
+
+    .section .data
+    .global __sbrkbase
+__sbrkbase:
+    d24     ___heapbot    ; storage for next block address
+
+    .extern ___heapbot
+    .extern ___heaptop

@@ -58,14 +58,11 @@ env.Replace(
     OBJDUMP="ez80-none-elf-objdump",
     RANLIB="ez80-none-elf-ranlib",
     SIZETOOL="ez80-none-elf-size",
-
     ARFLAGS=["rc"],
-
     SIZEPROGREGEXP=r"^(?:\.init|\.text|\.data|\.rodata|\.text\.align)\s+(\d+).*",
     SIZEDATAREGEXP=r"^(?:\.data|\.bss|\.noinit)\s+(\d+).*",
     SIZECHECKCMD="$SIZETOOL -A -d $SOURCES",
-    SIZEPRINTCMD='$SIZETOOL -B -d $SOURCES',
-    
+    SIZEPRINTCMD='$SIZETOOL -C -d $SOURCES',
     PROGSUFFIX=".elf"
 )
 
@@ -117,6 +114,7 @@ env.Append(
             action=env.VerboseAction(" ".join([
                 "$OBJDUMP",
                 "-d",
+                "-s",
                 "-S",
                 "$SOURCES",
                 ">",
@@ -132,7 +130,7 @@ if env.get("PROGNAME", "program") == "program":
     env.Replace(PROGNAME="firmware")
 
 if not env.get("PIOFRAMEWORK"):
-    env.SConscript("frameworks/_bare.py")
+    env.SConscript("frameworks/_bare.py", exports="env")
 
 #
 # Target: Build executable and linkable firmware
@@ -149,16 +147,19 @@ else:
     target_lst = env.Disassemble(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     target_debug = env.DisassembleDebug(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
 
-AlwaysBuild(env.Alias("nobuild", [target_hex, target_bin, target_lst, target_debug]))
-AlwaysBuild(env.Alias("buildprog", [target_hex, target_bin, target_lst, target_debug]))
+AlwaysBuild(env.Alias("nobuild", [target_hex, target_bin]))
+target_buildprog = env.Alias("buildprog", [target_hex, target_bin, target_lst, target_debug])
 
 #
 # Target: Print binary size
 #
-target_size = env.Alias(
-    "size", target_elf,
-    env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
-AlwaysBuild(target_size)
+target_size = env.AddPlatformTarget(
+    "size",
+    target_elf,
+    env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"),
+    "Program Size",
+    "Calculate program size",
+)
 
 #
 # Target: Upload firmware
@@ -192,4 +193,4 @@ AlwaysBuild(env.Alias("upload", target_bin, upload_actions))
 #
 # Setup default targets
 #
-Default([target_hex, target_bin, target_lst, target_debug, target_size])
+Default([target_buildprog, target_size])

@@ -9,7 +9,7 @@
   "frameworks": [],
   "name": "Agon Light 2",
   "upload": {
-    "maximum_ram_size": 458752,
+    "maximum_ram_size": 524288,
     "maximum_size": 131072,
     "protocol": "zdi",
     "protocols": [
