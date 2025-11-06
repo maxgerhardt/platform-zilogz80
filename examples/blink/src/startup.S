@@ -55,6 +55,7 @@ _nmi:
 ; default implementation for maskable interrupts
 ; must reinable interrupts and do a RETI at end.
 __default_mi_handler:
+    JP .
     EI
  RETI
 
@@ -81,7 +82,8 @@ __default_mi_handler:
 ; Number of vectors supported
 ;
 .section .rodata
-__nvectors:  .word NVECTORS            ; extern unsigned short _num_vectors;
+.global __nvectors
+__nvectors:  .word NVECTORS            ; extern unsigned short _nvectors;
 
 .section .bss
     .global __2nd_jump_table

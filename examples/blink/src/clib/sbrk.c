@@ -1,5 +1,5 @@
 extern char __heapbot; // Defined by the linker
-extern char __heaptop;
+extern char __heaptop; // Defined by the linker
 
 static char* heap_end = &__heapbot;
 
