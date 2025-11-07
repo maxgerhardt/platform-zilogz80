@@ -111,5 +111,6 @@ void PRT0_Handler(void)
 
     // Increment the millisecond counter
     ms++;
-    __asm("ei");
+    // interrupts are automatically reenabled before leaving the function
+    // through EI RETI instruction
 }

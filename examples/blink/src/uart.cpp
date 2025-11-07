@@ -2,6 +2,9 @@
 #include <ez80f92.h>
 #include "uart.h"
 
+/* nonstandard but often used function.. */
+extern "C" int itoa(int value, char *sp, int radix);
+
 /* =========================================================
  * UART0 configuration constants for eZ80F92 @ 18.432 MHz
  * ---------------------------------------------------------
@@ -97,43 +100,6 @@ void uart0_init(void) {
 void uart0_puts(const char *s) {
     while (*s)
         uart0_putc(*s++);
-}
-
-int itoa(int value, char *sp, int radix)
-{
-    char tmp[16];// be careful with the length of the buffer
-    char *tp = tmp;
-    int i;
-    unsigned v;
-
-    int sign = (radix == 10 && value < 0);    
-    if (sign)
-        v = -value;
-    else
-        v = (unsigned)value;
-
-    while (v || tp == tmp)
-    {
-        i = v % radix;
-        v /= radix;
-        if (i < 10)
-          *tp++ = i+'0';
-        else
-          *tp++ = i + 'a' - 10;
-    }
-
-    int len = tp - tmp;
-
-    if (sign) 
-    {
-        *sp++ = '-';
-        len++;
-    }
-
-    while (tp > tmp)
-        *sp++ = *--tp;
-
-    return len;
 }
 
 void uart0_putnum(int val, int radix) {
