@@ -10,7 +10,10 @@
   "name": "Agon Light 2",
   "upload": {
     "maximum_ram_size": 524288,
+    "maximum_intram_size": 8192,
     "maximum_size": 131072,
+    "intram_start": "0xb7e000",
+    "ram_start": "0x40000",
     "protocol": "zdi",
     "protocols": [
       "zdi"

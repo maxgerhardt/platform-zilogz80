@@ -6,15 +6,17 @@
 ENTRY(__start)
 
 /*
-    RAM_START and RAM_SIZE need to be set previously
+    {INT,EXT}RAM_{START,SIZE} need to be set previously
 */
 
 _Min_Heap_Size = 0x200;     /* required amount of heap  */
 _Min_Stack_Size = 0x400;    /* required amount of stack */
 
+/* Memory layout for AgonLight 2 (ez80F92) with external 512K SRAM */
 MEMORY {
-    FLASH   (rx) : ORIGIN = 0x0,        LENGTH = 128K      /* internal Flash */
-    USERRAM (rw) : ORIGIN = RAM_START,  LENGTH = RAM_SIZE  /* external RAM */
+    FLASH   (rx) : ORIGIN = 0x0,           LENGTH = FLASH_SIZE   /* internal Flash */
+    INTRAM  (rw) : ORIGIN = INTRAM_START,  LENGTH = INTRAM_SIZE  /* internal RAM */ 
+    USERRAM (rw) : ORIGIN = EXTRAM_START,  LENGTH = EXTRAM_SIZE  /* external RAM */
 }
 
 SECTIONS
@@ -80,11 +82,11 @@ SECTIONS
     } >USERRAM
 }
 
-__stack              = RAM_START + RAM_SIZE;
+__stack              = EXTRAM_START + EXTRAM_SIZE;
 ___low_bss           = bss_start;
 ___len_bss           = SIZEOF(.bss);
 ___heapbot           = bss_end;
-___heaptop           = RAM_START + RAM_SIZE - _Min_Stack_Size;
+___heaptop           = EXTRAM_START + EXTRAM_SIZE - _Min_Stack_Size;
 ___run_clearbss      = ___len_bss > 0;
 
 /* symbols for initializing the init_array and ctors sections */

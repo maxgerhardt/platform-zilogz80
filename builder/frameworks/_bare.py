@@ -12,6 +12,12 @@ board = env.BoardConfig()
 
 _toolchain_dir = platform.get_package_dir("toolchain-clangz80") or ""
 
+flash_size = int(board.get("upload.maximum_size"))
+extram_size = int(board.get("upload.maximum_ram_size"))
+extram_start = int(board.get("upload.ram_start", "0x40000"), 0)
+intram_size = int(board.get("upload.maximum_intram_size", "0"))
+intram_start = int(board.get("upload.intram_start", "0xb7e000"), 0)
+
 machine_flags = [
     "-Wa,-march=ez80+adl",  # eZ80 in ADL mode
     "--target=ez80-none-elf",
@@ -50,8 +56,11 @@ env.Append(
         "--gc-sections",
         #"--relax",
         # "--print-gc-sections",
-        "-defsym=RAM_START=0x40000",
-        "-defsym=RAM_SIZE=0x80000",
+        "-defsym=EXTRAM_START=%s" % hex(extram_start),
+        "-defsym=EXTRAM_SIZE=%s" % hex(extram_size),
+        "-defsym=INTRAM_START=%s" % hex(intram_start),
+        "-defsym=INTRAM_SIZE=%s" % hex(intram_size),
+        "-defsym=FLASH_SIZE=%s" % hex(flash_size)
     ],
     
     LIBS=[
