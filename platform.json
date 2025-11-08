@@ -21,9 +21,20 @@
       "script": "builder/frameworks/_bare.py",
       "description": "Baremetal environment for Z80/eZ80 microcontrollers",
       "title": "Baremetal"
+    },
+    "arduino": {
+      "package": "framework-arduinoez80",
+      "script": "builder/frameworks/arduino.py",
+      "description": "Arduino core for eZ80 devices",
+      "title": "Arduino"
     }
   },
   "packages": {
+    "framework-arduinoez80": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/maxgerhardt/ArduinoCore-eZ80"
+    },
     "toolchain-clangz80": {
       "type": "toolchain",
       "optional": false,

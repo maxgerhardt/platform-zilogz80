@@ -1,12 +1,16 @@
 {
   "build": {
     "core": "ez80",
+    "extra_flags": [
+      "-DARDUINO_AGONLIGHT2",
+      "-DEZ80F92"
+    ],    
     "f_cpu": "18432000L",
     "mcu": "EZ80F92AZ020EG",
     "variant": "agonlight2"
   },
 
-  "frameworks": [],
+  "frameworks": ["arduino"],
   "name": "Agon Light 2",
   "upload": {
     "maximum_ram_size": 524288,

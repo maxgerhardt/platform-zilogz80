@@ -32,10 +32,11 @@ env.Append(
     ],
     
     CCFLAGS=machine_flags + [
-        "-Oz",  # Optimize for size
+        "-O3",  # Optimize for size
         "-Wall",
         "-ffunction-sections",  # place each function in its own section
         "-fdata-sections",      # place each variable in its own section
+        "-fshort-enums",
     ],
     
     CXXFLAGS=[
