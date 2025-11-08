@@ -49,7 +49,6 @@ env.Append(
     ],
 
     CPPDEFINES=[
-        ("F_CPU", "$BOARD_F_CPU"),
         "ARDUINO_ARCH_EZ80",
         ("ARDUINO", 10808)
     ],
