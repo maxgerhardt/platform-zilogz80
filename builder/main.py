@@ -40,18 +40,11 @@ env = DefaultEnvironment()
 platform = env.PioPlatform()
 board = env.BoardConfig()
 
-# Wrapper that normalizes path separators before calling the real clang
-# This will be used to set CC/CXX so every compile invocation goes
-# through the wrapper and gets cleaned up for Windows clang quirks.
-_wrapper = join(platform.get_dir() or "", "builder", "clang_wrapper.py").replace('\\', '/')
-_real_clang = join(platform.get_package_dir("toolchain-clangz80") or "", "bin", "ez80-none-elf-clang").replace('\\', '/')
-_wrapper_cmd = '"$PYTHONEXE" "%s" "%s"' % (_wrapper, _real_clang)
-
 env.Replace(
     AR="ez80-none-elf-ar",
     AS="ez80-none-elf-as",
-    CC=_wrapper_cmd,
-    CXX=_wrapper_cmd,
+    CC="ez80-none-elf-clang",
+    CXX="ez80-none-elf-clang",
     GDB="ez80-none-elf-gdb",
     LINK="ez80-none-elf-ld",
     OBJCOPY="ez80-none-elf-objcopy",
