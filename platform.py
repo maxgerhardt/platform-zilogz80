@@ -35,7 +35,7 @@ class Zilogz80Platform(PlatformBase):
         #"linux_armv6l": "",
         # Mac (Intel and ARM are the separate)
         #"darwin_x86_64": "",
-        #"darwin_arm64": ""
+        "darwin_arm64": "https://github.com/maxgerhardt/toolchain-clangz80.git#macos_arm64",
     }
 
     def configure_default_packages(self, variables, targets):
